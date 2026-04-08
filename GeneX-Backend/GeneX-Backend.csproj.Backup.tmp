@@ -1,0 +1,51 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>GeneX_Backend</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Infrastructure\Identity\" />
+    <Folder Include="Modules\Carts\DTOs\" />
+    <Folder Include="Modules\Carts\Models\" />
+    <Folder Include="Modules\Carts\Interfaces\" />
+    <Folder Include="Modules\Carts\Entities\" />
+    <Folder Include="Modules\Carts\Services\" />
+    <Folder Include="Modules\Orders\DTOs\" />
+    <Folder Include="Modules\Orders\Models\" />
+    <Folder Include="Modules\Orders\Entities\" />
+    <Folder Include="Modules\Orders\Interfaces\" />
+    <Folder Include="Modules\Orders\Services\" />
+    <Folder Include="Modules\Payments\DTOs\" />
+    <Folder Include="Modules\Payments\Entities\" />
+    <Folder Include="Modules\Payments\Interfaces\" />
+    <Folder Include="Modules\Payments\Models\" />
+    <Folder Include="Modules\Payments\Services\" />
+    <Folder Include="Modules\Products\Interfaces\" />
+    <Folder Include="Modules\Products\Models\" />
+    <Folder Include="Modules\Products\Entities\" />
+    <Folder Include="Modules\Products\DTOs\" />
+    <Folder Include="Modules\Products\Services\" />
+    <Folder Include="Shared\Exceptions\" />
+    <Folder Include="Shared\Middlewares\" />
+    <Folder Include="Shared\Enums\" />
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>
+
+</Project>

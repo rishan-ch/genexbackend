@@ -1,0 +1,53 @@
+﻿#Ignore database configuration conflict
+appsettings.json
+
+#Ignore database migrations
+**/Migrations/
+
+## Ignore build results
+bin/
+obj/
+
+## User-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.userprefs
+
+## Visual Studio specific
+.vs/
+.vscode/
+
+## ASP.NET specific
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## .NET Core specific
+project.assets.json
+*.deps.json
+*.runtimeconfig.json
+*.runtimeconfig.dev.json
+
+## NuGet packages
+*.nupkg
+packages/
+.nuget/
+*.snupkg
+*.nuspec
+
+## Environment files
+.env
+
+## Logs
+*.log
+
+## OS generated files
+.DS_Store
+Thumbs.db
+
+## Publish output
+publish/
+dist/
+

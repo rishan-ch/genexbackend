@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>GeneX_Backend</RootNamespace>
+    <UserSecretsId>2ff3d971-827c-41a2-bf98-909c49381d1e</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="CloudinaryDotNet" Version="1.27.5" />
+    <PackageReference Include="DotNetEnv" Version="3.1.1" />
+    <PackageReference Include="Google.Apis.Auth.AspNetCore3" Version="1.69.0" />
+    <PackageReference Include="Google.Apis.Drive.v3" Version="1.69.0.3778" />
+    <PackageReference Include="Mailkit" Version="4.12.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.SignalR" Version="1.2.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Owin.Security.OAuth" Version="4.2.2" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="8.0.0" />
+    <PackageReference Include="PuppeteerSharp" Version="20.1.3" />
+    <PackageReference Include="QuestPDF" Version="2025.7.0" />
+    <PackageReference Include="Scalar.AspNetCore" Version="2.6.9" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Modules\Carts\DTOs\" />
+    <Folder Include="Modules\Carts\Models\" />
+    <Folder Include="Modules\Carts\Interfaces\" />
+    <Folder Include="Modules\Carts\Entities\" />
+    <Folder Include="Modules\Carts\Services\" />
+    <Folder Include="Modules\Discount\Model\" />
+    <Folder Include="Modules\Orders\DTOs\" />
+    <Folder Include="Modules\Orders\Entities\" />
+    <Folder Include="Modules\Orders\Models\" />
+    <Folder Include="Modules\Orders\Interfaces\" />
+    <Folder Include="Modules\Orders\Services\" />
+    <Folder Include="Modules\Payments\DTOs\" />
+    <Folder Include="Modules\Payments\Entities\" />
+    <Folder Include="Modules\Payments\Interfaces\" />
+    <Folder Include="Modules\Payments\Models\" />
+    <Folder Include="Modules\Payments\Services\" />
+    <Folder Include="Modules\Products\Models\" />
+    <Folder Include="Shared\Middlewares\" />
+    <Folder Include="Shared\Enums\" />
+  </ItemGroup>
+
+</Project>
