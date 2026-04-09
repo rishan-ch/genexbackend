@@ -36,35 +36,45 @@ using Microsoft.OpenApi.Models;
 using System.Text;
 using System.Text.Json.Serialization;
 
-var builder = WebApplication.CreateBuilder(args);
+// --- FIX 1: DISABLE FILE WATCHING (INOTIFY LIMIT) ---
+// This prevents the 'status 139' crash on Render's Linux environment
+var builder = WebApplication.CreateBuilder(new WebApplicationOptions
+{
+    Args = args,
+    ContentRootPath = Directory.GetCurrentDirectory()
+});
 
-// 1. Port Configuration (Vital for Render)
-// This tells Kestrel to listen on the port Render provides, or 10000 by default.
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: true, reloadOnChange: false)
+    .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: true, reloadOnChange: false)
+    .AddEnvironmentVariables();
+
+// --- FIX 2: PORT CONFIGURATION ---
 var port = Environment.GetEnvironmentVariable("PORT") ?? "10000";
 builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
-// 2. Cloudinary Setup
-// It will now pull from Render Environment Variables instead of a local .env file.
-// 2. Cloudinary Setup
+// --- FIX 3: CLOUDINARY DI REGISTRATION ---
 var cloudName = builder.Configuration["CLOUDINARY_CLOUDNAME"];
 var apiKey = builder.Configuration["CLOUDINARY_APIKEY"];
 var apiSecret = builder.Configuration["CLOUDINARY_APISECRET"];
 
-// Create the account object
-var cloudinaryAccount = new Account(cloudName, apiKey, apiSecret);
-
-// Create the Cloudinary instance
-var cloudinary = new Cloudinary(cloudinaryAccount);
-
-// REGISTER IT HERE - This is the line your app was missing!
-builder.Services.AddSingleton(cloudinary);
+if (!string.IsNullOrEmpty(cloudName))
+{
+    var acc = new Account(cloudName, apiKey, apiSecret);
+    builder.Services.AddSingleton(new Cloudinary(acc));
+}
+else
+{
+    // Register empty instance to prevent Dependency Injection 500 errors
+    builder.Services.AddSingleton(new Cloudinary());
+}
 
 // CORS policy
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp", policy =>
     {
-        policy.WithOrigins("https://genex-frontend.vercel.app") // Removed trailing slash for better matching
+        policy.WithOrigins("https://genex-frontend.vercel.app")
               .AllowAnyMethod()
               .AllowAnyHeader()
               .AllowCredentials();
@@ -170,11 +180,9 @@ builder.Services.AddAuthentication(options =>
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// Enable Swagger in Production for testing on Render
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseCors("AllowAngularApp");
 app.UseAuthentication();
@@ -182,11 +190,17 @@ app.UseAuthorization();
 app.MapControllers();
 app.MapHub<NotificationHub>("/notificationHub");
 
-// Automatic Seeding
+// Automatic Seeding & Migration
 using (var scope = app.Services.CreateScope())
 {
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<RoleEntity>>();
-    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<UserEntity>>();
+    var services = scope.ServiceProvider;
+    var context = services.GetRequiredService<AppDbContext>();
+    
+    // Auto-apply migrations
+    context.Database.Migrate();
+
+    var roleManager = services.GetRequiredService<RoleManager<RoleEntity>>();
+    var userManager = services.GetRequiredService<UserManager<UserEntity>>();
     
     // Seed Roles
     var roles = new[] { "SuperAdmin", "Admin", "Customer" };
