@@ -45,15 +45,19 @@ builder.WebHost.UseUrls($"http://0.0.0.0:{port}");
 
 // 2. Cloudinary Setup
 // It will now pull from Render Environment Variables instead of a local .env file.
+// 2. Cloudinary Setup
 var cloudName = builder.Configuration["CLOUDINARY_CLOUDNAME"];
 var apiKey = builder.Configuration["CLOUDINARY_APIKEY"];
 var apiSecret = builder.Configuration["CLOUDINARY_APISECRET"];
 
-if (!string.IsNullOrEmpty(cloudName) && !string.IsNullOrEmpty(apiKey) && !string.IsNullOrEmpty(apiSecret))
-{
-    var cloudinary = new Cloudinary(new Account(cloudName, apiKey, apiSecret));
-    builder.Services.AddSingleton(cloudinary);
-}
+// Create the account object
+var cloudinaryAccount = new Account(cloudName, apiKey, apiSecret);
+
+// Create the Cloudinary instance
+var cloudinary = new Cloudinary(cloudinaryAccount);
+
+// REGISTER IT HERE - This is the line your app was missing!
+builder.Services.AddSingleton(cloudinary);
 
 // CORS policy
 builder.Services.AddCors(options =>
